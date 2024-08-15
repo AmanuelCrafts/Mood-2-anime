@@ -13,8 +13,8 @@ const AnimeCard = memo(({ anime }) => {
             src={imageUrl}
             alt={anime.title}
             className="absolute top-0 left-0 w-full h-full object-cover"
-            loading="lazy" // Enable lazy loading
-            style={{ imageRendering: "auto" }} // Ensure high-quality rendering
+            loading="lazy"
+            style={{ imageRendering: "auto" }}
           />
         ) : (
           <p className="text-center text-gray-500 py-4">No image available</p>

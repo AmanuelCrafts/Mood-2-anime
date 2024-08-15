@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SelectedMoodCard from "../components/EditMood"; // Import the card component
 
@@ -30,6 +30,10 @@ const Home = () => {
     setCurrentMood(emotion);
     navigate(`/anime/${emotion}`);
   };
+
+  useEffect(() => {
+    document.title = "Home - Mood to Anime";
+  }, []);
 
   return (
     <div className="w-full flex flex-col items-center justify-center gap-6 py-6">

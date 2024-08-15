@@ -46,6 +46,12 @@ const AnimeContainer = () => {
     }
   };
 
+  useEffect(() => {
+    const capitalizedEmotion =
+      emotion.charAt(0).toUpperCase() + emotion.slice(1).toLowerCase();
+    document.title = `${capitalizedEmotion} - Mood to Anime`;
+  }, [emotion]);
+
   return (
     <div className="w-full flex flex-col items-center gap-6 py-6 px-10">
       <SelectedMoodCard mood={emotion.toLowerCase()} />
