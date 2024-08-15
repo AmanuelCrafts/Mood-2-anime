@@ -8,21 +8,26 @@ const AnimeContainer = () => {
   const { emotion } = useParams();
   const [animeList, setAnimeList] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchAnimeByEmotion = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(`https://api.jikan.moe/v4/anime`, {
           params: {
-            q: emotion, // Search by the emotion
-            order_by: "score", // Order by score
-            sort: "desc", // Highest scores first
-            limit: 10, // Limit to 10 results
+            q: emotion,
+            order_by: "score",
+            sort: "desc",
+            limit: 10,
           },
         });
         setAnimeList(response.data.data);
       } catch (error) {
-        console.error("Error fetching anime:", error);
+        setError("Failed to fetch anime. Please try again later.");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -43,10 +48,13 @@ const AnimeContainer = () => {
 
   return (
     <div className="w-full flex flex-col items-center gap-6 py-6 px-10">
-      {/* Display the SelectedMoodCard at the top */}
       <SelectedMoodCard mood={emotion.toLowerCase()} />
 
-      {animeList.length > 0 ? (
+      {loading ? (
+        <p className="px-4">Fetching anime based on your mood...</p>
+      ) : error ? (
+        <p className="text-red-500">{error}</p>
+      ) : animeList.length > 0 ? (
         <AnimeList
           animeList={animeList}
           currentIndex={currentIndex}
@@ -55,8 +63,8 @@ const AnimeContainer = () => {
         />
       ) : (
         <p className="px-4">
-          We're fetching the best movies to watch when you feel {emotion}...
-          Hold tight!
+          We couldn't find any anime for the emotion: {emotion}. Try another
+          mood.
         </p>
       )}
     </div>

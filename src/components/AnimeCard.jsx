@@ -1,14 +1,20 @@
-import React from "react";
+import React, { memo } from "react";
 
-const AnimeCard = ({ anime }) => {
+const AnimeCard = memo(({ anime }) => {
+  // Use the highest available resolution image URL
+  const imageUrl =
+    anime.images?.jpg.large_image_url || anime.images?.jpg.image_url;
+
   return (
     <div className="max-w-2xl mx-auto bg-[#272935] shadow-lg rounded-lg overflow-hidden my-5">
-      <div className="relative pb-[60%] overflow-hidden">
-        {anime.images && anime.images.jpg.image_url ? (
+      <div className="relative pb-[100%] overflow-hidden">
+        {imageUrl ? (
           <img
-            src={anime.images.jpg.image_url}
+            src={imageUrl}
             alt={anime.title}
-            className="absolute top-0 left-0 w-full h-full"
+            className="absolute top-0 left-0 w-full h-full object-cover"
+            loading="lazy" // Enable lazy loading
+            style={{ imageRendering: "auto" }} // Ensure high-quality rendering
           />
         ) : (
           <p className="text-center text-gray-500 py-4">No image available</p>
@@ -42,6 +48,6 @@ const AnimeCard = ({ anime }) => {
       </div>
     </div>
   );
-};
+});
 
 export default AnimeCard;
